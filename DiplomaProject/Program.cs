@@ -1,6 +1,8 @@
-﻿using DiplomaProject.Models;
+﻿using DiplomaProject;
+using DiplomaProject.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -52,6 +54,15 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireAdministratorRole", policy =>
         policy.RequireRole("Administrator"));
 });
+
+// Добавление настроек почты
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+// Регистрация сервиса отправки почты
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+// Остальная конфигурация...
+
 
 var app = builder.Build();
 

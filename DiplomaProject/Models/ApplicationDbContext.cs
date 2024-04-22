@@ -9,5 +9,7 @@ namespace DiplomaProject.Models
            : base(options)
         {
         }
+
+        
     }
 }

@@ -4,6 +4,8 @@ namespace DiplomaProject.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        // Добавьте сюда любые дополнительные свойства, которые нужны для вашего приложения
+        /*public int UserId { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }*/
     }
 }
