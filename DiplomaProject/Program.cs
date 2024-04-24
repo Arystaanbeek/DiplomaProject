@@ -61,9 +61,6 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 // Регистрация сервиса отправки почты
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// Остальная конфигурация...
-
-
 var app = builder.Build();
 
 app.UseCors("OpenCorsPolicy");

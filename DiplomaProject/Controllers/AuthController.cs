@@ -89,7 +89,8 @@ public class AuthController : ControllerBase
 
         // Отправка email с ссылкой на страницу сброса пароля на frontend
         await SendEmailAsync(model.Email, "Сброс пароля",
-            $"Пожалуйста, перейдите по этой ссылке для сброса вашего пароля: {frontendResetUrl}");
+            $"Пожалуйста, перейдите по этой ссылке для сброса вашего пароля: " +
+            $"{frontendResetUrl}");
 
         return Ok(new { Status = "Success", Message = "Ссылка для сброса пароля отправлена на ваш email." });
     }
