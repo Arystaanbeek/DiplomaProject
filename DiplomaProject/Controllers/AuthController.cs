@@ -1,13 +1,12 @@
 ﻿using DiplomaProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 [ApiController]
@@ -16,10 +15,13 @@ public class AuthController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
-    public AuthController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+    private readonly IEmailSender _emailSender;
+
+    public AuthController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IEmailSender emailSender)
     {
         _userManager = userManager;
         _configuration = configuration;
+        _emailSender = emailSender;
     }
 
     [HttpPost("register")]
@@ -95,6 +97,8 @@ public class AuthController : ControllerBase
         return Ok(new { Status = "Success", Message = "Ссылка для сброса пароля отправлена на ваш email." });
     }
 
+
+
     private async Task SendEmailAsync(string email, string subject, string message)
     {
         using (var client = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587))
@@ -117,8 +121,8 @@ public class AuthController : ControllerBase
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                // Обработка исключения или повторная попытка отправки письма
+                Console.WriteLine($"Failed to send email: {ex.Message}");
+                //return BadRequest(new { Status = "Error", Message = "Failed to send email. Check logs for details." });
             }
         }
     }

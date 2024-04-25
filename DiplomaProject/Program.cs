@@ -1,7 +1,7 @@
 ﻿using DiplomaProject;
 using DiplomaProject.Models;
+using DiplomaProject.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -65,11 +65,8 @@ var app = builder.Build();
 
 app.UseCors("OpenCorsPolicy");
 
-/*if (app.Environment.IsDevelopment())
-{*/
-    app.UseSwagger();
-    app.UseSwaggerUI();
-//}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
