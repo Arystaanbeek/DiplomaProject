@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
         if (userExists != null)
         {
             // Если пользователь существует, возвращаем ошибку.
-            return StatusCode(StatusCodes.Status409Conflict, new { Status = "Error", Message = "User already exists!" });
+            return StatusCode(StatusCodes.Status409Conflict, new { Status = "Ошибка", Message = "Пользователь уже существует!" });
         }
 
         // Создаем нового пользователя.
@@ -47,10 +47,12 @@ public class AuthController : ControllerBase
         if (!result.Succeeded)
         {
             // Если не получилось зарегистрировать пользователя, возвращаем ошибку.
-            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            return StatusCode(
+                StatusCodes.Status500InternalServerError, new { Status = "Ошибка", 
+                    Message = "Не удалось создать пользователя! Пожалуйста, проверьте данные пользователя и повторите попытку." });
         }
 
-        return Ok(new { Status = "Success", Message = "User created successfully!" });
+        return Ok(new { Status = "Успешно!", Message = "Пользователь успешно создан!" });
     }
 
     [HttpPost("login")]
@@ -63,11 +65,11 @@ public class AuthController : ControllerBase
         {
             // Если пароль верный, генерируем JWT токен.
             var token = GenerateJwtToken(user);
-            return Ok(new { Token = token, Message = "Logged in successfully" });
+            return Ok(new { Token = token, Message = "Успешно вошел в систему." });
         }
 
         // Если пароль не верный, возвращаем ошибку.
-        return Unauthorized(new { Status = "Error", Message = "Invalid credentials" });
+        return Unauthorized(new { Status = "Ошибка", Message = "Неверные учетные данные" });
     }
 
     [HttpPost("ForgotPassword")]
@@ -77,7 +79,7 @@ public class AuthController : ControllerBase
         if (user == null)
         {
             // Не раскрываем, что пользователь не существует
-            return BadRequest(new { Status = "Error", Message = "Пользователь с таким email не найден." });
+            return BadRequest(new { Status = "Ошибка", Message = "Пользователь с таким email не найден." });
         }
 
         // Генерация токена сброса пароля
@@ -96,9 +98,6 @@ public class AuthController : ControllerBase
 
         return Ok(new { Status = "Success", Message = "Ссылка для сброса пароля отправлена на ваш email." });
     }
-
-
-
     private async Task SendEmailAsync(string email, string subject, string message)
     {
         using (var client = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587))
@@ -121,8 +120,7 @@ public class AuthController : ControllerBase
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to send email: {ex.Message}");
-                //return BadRequest(new { Status = "Error", Message = "Failed to send email. Check logs for details." });
+                Console.WriteLine($"Не удалось отправить электронное письмо: {ex.Message}");
             }
         }
     }
@@ -133,7 +131,7 @@ public class AuthController : ControllerBase
         var user = await _userManager.FindByIdAsync(model.UserId);
         if (user == null)
         {
-            return BadRequest(new { Status = "Error", Message = "Неверный запрос на сброс пароля." });
+            return BadRequest(new { Status = "Ошибка", Message = "Неверный запрос на сброс пароля." });
         }
 
         // Декодирование токена из URL
@@ -142,10 +140,10 @@ public class AuthController : ControllerBase
         var result = await _userManager.ResetPasswordAsync(user, decodedToken, model.NewPassword);
         if (!result.Succeeded)
         {
-            return BadRequest(new { Status = "Error", Message = "Ошибка при сбросе пароля.", Errors = result.Errors });
+            return BadRequest(new { Status = "Ошибка", Message = "Ошибка при сбросе пароля.", Errors = result.Errors });
         }
 
-        return Ok(new { Status = "Success", Message = "Пароль успешно сброшен." });
+        return Ok(new { Status = "Успешно", Message = "Пароль успешно сброшен." });
     }
 
     private string GenerateJwtToken(ApplicationUser user)
