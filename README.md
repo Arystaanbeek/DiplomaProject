@@ -63,15 +63,4 @@ This project is focused on developing a user management system that includes fun
 
 ## Using the API
 
-### User Registration
-
-**Endpoint**: `POST /auth/register`
-
-**Sample Request**:
-
-```json
-{
-  "Email": "user@example.com",
-  "Name": "username",
-  "Password": "your_password"
-}
+Check endpoinds from swagger: https://diplomawebapi.azurewebsites.net/swagger
