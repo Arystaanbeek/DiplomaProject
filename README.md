@@ -1,3 +1,71 @@
+# Дипломдық Жоба: ПАЙДАЛАНУШЫЛАРДЫ БАСҚАРУ API
+
+## Жобаның Сипаттамасы
+
+Бұл жоба тіркеу, авторизациялау және парольді қалпына келтіру функцияларын қамтитын пайдаланушыларды басқару жүйесін дамытуға бағытталған. Жоба пайдаланушы деректерін дерекқорда сақтау үшін.NET Core API ПАЙДАЛАНАДЫ.
+
+## Мүмкіндіктер
+
+- **Пайдаланушыны Тіркеу**: Пайдаланушылар сайтта тіркеле алады.
+- **Пайдаланушының Авторизациясы**: Пайдаланушылар электрондық пошта мен пароль арқылы кіре алады.
+- **Құпия сөзді Қалпына келтіру**: Пайдаланушылар электрондық поштасына жіберілетін құпия сөзді қалпына келтіру сілтемесін сұрай алады.
+
+## Жобаны іске қосу
+
+### Талаптар
+
+- [. NET Core SDK](https://dotnet.microsoft.com/download) 3.1 немесе одан кейінгі
+- [SQL Сервері](https://www.microsoft.com/en-us/sql-server/sql-server-downloads б.
+
+### API орнату ЖӘНЕ Іске ҚОСУ
+
+1. Репозиторийді клондау:
+
+    ```sh
+    git clone https://github.com/yourusername/UserManagementAPI.git
+    cd UserManagementAPI
+    ```
+
+2. "Қолданба параметрлері" бөлімінде дерекқорды конфигурациялаңыз.json файлы:
+
+    ```json
+    {
+      "ConnectionStrings": {
+        "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=YourDatabaseName;Trusted_Connection=True;MultipleActiveResultSets=true"
+      },
+      "Jwt": {
+        "Key": "your_secret_key",
+        "Issuer": "your_issuer",
+        "Audience": "your_audience"
+      },
+      "EmailSender": {
+        "Host": "your_smtp_host",
+        "Port": "your_smtp_port",
+        "EnableSSL": true,
+        "UserName": "your_email",
+        "Password": "your_email_password"
+      }
+    }
+    ```
+
+3. Тасымалдауларды қолданыңыз және дерекқорды жаңартыңыз:
+
+     ```sh
+    dotnet ef migrations add InitialCreate
+    dotnet ef database update
+    ```
+
+4. API іске қосыңыз:
+
+    ```sh
+    dotnet run
+    ```
+
+## API қолдану
+
+Swagger-ден соңғы нүктелерді тексеріңіз: https://diplomawebapi.azurewebsites.net/swagger
+
+
 # Diploma Project: User Management API
 
 ## Project Description
